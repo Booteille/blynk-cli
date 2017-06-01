@@ -28,7 +28,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Booteille/blynkcli.git"
+    "url": "https://github.com/Booteille/blynk-cli.git"
   },
   "devDependencies": {
     "hashish": "^0.0.4",
