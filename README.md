@@ -62,11 +62,11 @@ $ blynkcli backup create BACKUP
 The backup generated is located in the folder you designed in your Blynk CLI configuration.
 
 As you can see in this example, the generated backup is located under `BACKUP/cee3acd3-1190-4501-bfc1-ba10423c1a07`.
-Each backup have an Unique Identifier in order to be able to give the same name multiple times to a backup.
+Each backup have an Unique Identifier giving ablity to give the same name to different backups.
 
 You can retrieve backup informations in the file `backups.lock` located in your Backups folder.
 
-Here is what generated the backup we created just before:
+Here is what generated the backup we created before:
 ```console
 $ cat /home/booteille/.blynkcli/backup/backups.lock
 [
@@ -82,13 +82,13 @@ $ cat /home/booteille/.blynkcli/backup/backups.lock
 ### Restore from a backup
 If you want to restore your data folder from a desired backup, you have to type:
 ```console
-blynkcli backup restore BACKUP
+$ blynkcli backup restore BACKUP
 [OK] Restored from backup /home/booteille/.blynkcli/backup/BACKUP/cee3acd3-1190-4501-bfc1-ba10423c1a07
 ```
 
 Now. Admit we have backups under the same name:
 ```console
-blynkcli backup restore BACKUP
+$ blynkcli backup restore BACKUP
 [WARN] There are 2 backup found with corresponding names:
 BACKUP/812de666-6d21-4f36-8877-cc1f775dab73 Thu Jun 01 2017 15:58:44 GMT+0200 (CEST)
 BACKUP/cee3acd3-1190-4501-bfc1-ba10423c1a07 Thu Jun 01 2017 15:46:50 GMT+0200 (CEST)
@@ -97,12 +97,36 @@ BACKUP/cee3acd3-1190-4501-bfc1-ba10423c1a07 Thu Jun 01 2017 15:46:50 GMT+0
 
 Think about the backup you want to restore then type the full name (or at least first characters of uuid) to get your restoration:
 ```console
-blynkcli backup restore BACKUP/812
+$ blynkcli backup restore BACKUP/812
 [OK] Restored from backup /home/booteille/.blynkcli/backup/BACKUP/812de666-6d21-4f36-8877-cc1f775dab73
 ```
 
 You can also restore your backup from the uuid:
 ```console
-blynkcli backup restore /cee                                                                                                                                                         16:00:26
+$ blynkcli backup restore /cee
 [OK] Restored from backup /home/booteille/.blynkcli/backup/BACKUP/cee3acd3-1190-4501-bfc1-ba10423c1a07
+```
+
+### Add an user
+You can add a new user by typing:
+```console
+$ blynkcli user add
+? Email:  booteille@booteille.com
+? Password:  [hidden]
+? Confirm your password:  [hidden]
+? Is super admin?  true
+[OK] User booteille@booteille.com added
+```
+
+### Change user properties
+You can change an user property by typing:
+```console
+$ blynkcli user set booteille@booteille.com energy 15000
+[OK] Property energy set to 15000
+[WARN] You must restart the server to apply the effect
+```
+Now we can check the new value:
+```console
+$ blynkcli user get booteille@booteille.com energy
+energy: 15000
 ```
