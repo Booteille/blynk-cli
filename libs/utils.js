@@ -10,6 +10,7 @@ const configPath = appUserPath + '/blynkcli.json'
 const serverFolder = appUserPath + '/server'
 const PIDFile = appUserPath + '/blynk.pid'
 
+fs.ensureFileSync(configPath)
 const config = fs.readJsonSync(configPath)
 
 let utils = {
