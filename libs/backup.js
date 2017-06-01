@@ -55,19 +55,23 @@ module.exports = {
 
     server.isInstalled(true)
 
-    let backup = _backupPath(_backup(argv.name))
+    let backup = _backup(argv.name)
 
-    let isStarted = server.isStarted()
-    if (isStarted) {
-      server.stop()
-    }
+    if (backup.server_version <= u.config.server.version) {
+      let isStarted = server.isStarted()
+      if (isStarted) {
+        server.stop()
+      }
 
-    fs.copySync(backup, u.config.server.data)
+      fs.copySync(_backupPath(backup), u.config.server.data)
 
-    u.success('Restored from backup ' + backup)
+      u.success('Restored from backup ' + _backupPath(backup))
 
-    if (isStarted) {
-      server.start()
+      if (isStarted) {
+        server.start()
+      }
+    } else {
+      u.error(`You can't restore backup from version newer than the installed Blynk server (Backup version: ${backup.server_version})`)
     }
   }
 }
