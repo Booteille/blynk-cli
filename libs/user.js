@@ -103,7 +103,7 @@ module.exports = {
 
     fs.writeJsonSync(_userPath(target.email), target)
 
-    u.success(`${target.email} profile cloned from ${source.email}`)
+    u.success(`${target.email} projects cloned from ${source.email}`)
     u.warning('You must restart the server to apply the effect')
   },
   get: argv => {

@@ -130,3 +130,10 @@ Now we can check the new value:
 $ blynkcli user get booteille@booteille.com energy
 energy: 15000
 ```
+
+### Clone Projects from one user to another
+```console
+blynkcli user clone-projects booteille@booteille.com admin@blynk.cc
+[OK] admin@blynk.cc profile cloned from booteille@booteille.com
+[WARN] You must restart the server to apply the effect
+[OK] Backup done! You can find it in /home/sephir/.blynkcli/backup/auto-cloneProfile/07221e9e-3f09-46dc-914a-b1a90a703fe7
