@@ -142,6 +142,8 @@ module.exports = {
           _askPassword(answers.email)
         })
     }
+
+    u.success(`Password for user ${argv.email} changed`)
   },
   remove: argv => {
     if (argv.email) {
@@ -338,6 +340,10 @@ function _userPath (email) {
 function _updateUser (email, user) {
   if (_userExists(email)) {
     fs.writeJsonSync(_userPath(email), user)
+
+    if (require('./server').isStarted()) {
+      u.warning('You must restart the server to apply the effect')
+    }
 
     return true
   }
