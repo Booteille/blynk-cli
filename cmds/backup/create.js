@@ -1,6 +1,7 @@
 'use strict'
 
 exports.command = 'create <name>'
+exports.aliases = 'c'
 exports.desc = 'Make a backup named <name> of the data folder'
 
 exports.builder = {}

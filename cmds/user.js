@@ -7,6 +7,7 @@ const desc = chalk.yellow
 
 exports.command = 'user <command>'
 exports.desc = 'Manage Blynk server users'
+exports.aliases = 'u'
 
 exports.builder = function (yargs) {
   return yargs

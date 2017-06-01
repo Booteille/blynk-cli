@@ -1,6 +1,7 @@
 'use strict'
 
 exports.command = 'list'
+exports.aliases = 'l'
 exports.desc = 'List existing users'
 
 exports.builder = {}

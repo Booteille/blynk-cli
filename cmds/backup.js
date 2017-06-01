@@ -6,6 +6,7 @@ const expl = chalk.cyan
 const desc = chalk.yellow
 
 exports.command = 'backup <command>'
+exports.aliases = 'b'
 exports.desc = 'Manage Backups'
 
 exports.builder = function (yargs) {
