@@ -21,9 +21,9 @@ module.exports = {
 
     fs.ensureDirSync(u.serverFolder)
 
-    var downloadURL = 'https://github.com/blynkkk/blynk-server/releases/download/' + u.u.config.server.version + '/' + u.u.config.server.filename
+    var downloadURL = 'https://github.com/blynkkk/blynk-server/releases/download/' + u.config.server.version + '/' + u.config.server.filename
 
-    u.info(`Downloading Blynk server ${u.u.config.server.version}`)
+    u.info(`Downloading Blynk server ${u.config.server.version}`)
 
     request.get({
       url: downloadURL,
@@ -35,14 +35,14 @@ module.exports = {
         u.error(res.statusCode)
       } else {
         // Write downloaded file to server path
-        fs.writeFileSync(u.u.config.server.path, data, {
+        fs.writeFileSync(u.config.server.path, data, {
           encoding: null,
           mode: 0o755
         })
 
         u.info('Creating default configuration')
 
-        fs.writeFileSync(u.u.config.server.properties, 'admin.email=admin@blynk.cc\nadmin.pass=fablab\nlogs.folder=' + u.u.config.server.logs, {
+        fs.writeFileSync(u.config.server.properties, 'admin.email=admin@blynk.cc\nadmin.pass=fablab\nlogs.folder=' + u.config.server.logs, {
           mode: 0o644
         })
 
