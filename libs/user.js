@@ -86,7 +86,7 @@ module.exports = {
         u.error(err)
       })
   },
-  cloneProfile: argv => {
+  cloneProjects: argv => {
     let source = _user(argv.emailSource)
     let target = _user(argv.emailTarget)
 

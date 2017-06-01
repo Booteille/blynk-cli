@@ -7,5 +7,5 @@ exports.aliases = 'cp'
 exports.builder = {}
 
 exports.handler = function (argv) {
-  require('../../libs/user').cloneProfile(argv)
+  require('../../libs/user').cloneProjects(argv)
 }
