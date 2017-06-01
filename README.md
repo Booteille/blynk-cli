@@ -25,32 +25,32 @@ Once Blynk CLI installed, you can show help about existing commands by typing:
 ```console
 blynkcli
 # OR
-blynkcli help
+blynk-cli help
 # OR
-blynkcli --help
+blynk-cli --help
 ```
 
 ### Install Blynk Server
 Once Blynk CLI installed, you'll have to install Blynk server by running:
 ```console
-blynkcli server install
+blynk-cli server install
 ```
 
 ### Update Blynk Server
 You can update Blynk Server to the latest version by running:
 ```console
-blynkcli server update
+blynk-cli server update
 ```
 
 ### Start/Stop/Restart Server
 ```console
-blynkcli server start
+blynk-cli server start
 
-blynkcli server status # Display status of Blynk server
+blynk-cli server status # Display status of Blynk server
 
-blynkcli server stop
+blynk-cli server stop
 
-blynkcli server restart
+blynk-cli server restart
 ```
 
 ### Make a backup
