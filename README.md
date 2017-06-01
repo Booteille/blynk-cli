@@ -16,5 +16,5 @@ Please, make sure your configuration respect the following pre-requisite:
 ### Installation
 Run the following command as super-user to install Blynk CLI:
 ```console
-npm install -g blynkcli
+npm install -g blynk-cli
 ```
