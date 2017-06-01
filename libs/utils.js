@@ -10,16 +10,11 @@ const configPath = appUserPath + '/blynkcli.json'
 const serverFolder = appUserPath + '/server'
 const PIDFile = appUserPath + '/blynk.pid'
 
-fs.ensureFileSync(configPath)
-const config = fs.readJsonSync(configPath)
-
 let utils = {
   appUserPath,
   configPath,
   serverFolder,
   PIDFile,
-
-  config,
 
   error: (message) => {
     console.error(chalk.red.bold('[ERR] '), message)
@@ -71,5 +66,6 @@ let utils = {
 }
 
 utils.ensureBlynkCLIDir()
+utils.config = fs.readJsonSync(configPath)
 
 module.exports = utils
