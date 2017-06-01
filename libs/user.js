@@ -6,7 +6,6 @@ const validator = require('validator')
 const enquirer = require('enquirer')()
 const readdir = require('readdir-enhanced')
 const chalk = require('chalk')
-const server = require('./server')
 
 module.exports = {
   add: argv => {
@@ -98,7 +97,7 @@ module.exports = {
       u.error(`User ${target.email} does not exist`)
     }
 
-    server.backup({name: 'auto-cloneProfile'})
+    require('./backup').create({name: 'auto-cloneProfile'})
 
     target.profile = source.profile
 
