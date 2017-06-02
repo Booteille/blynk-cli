@@ -138,7 +138,10 @@ module.exports = {
           } else if (res.statusCode !== 200) {
             u.error(res.statusCode)
           } else {
-            _stop()
+            let isStarted = _isStarted()
+            if (isStarted) {
+              _stop()
+            }
             require('./backup').create({name: 'auto-update'})
 
             // Update config file
@@ -169,7 +172,9 @@ module.exports = {
 
                 u.success('Update complete')
 
-                _start()
+                if (isStarted) {
+                  _start()
+                }
               }
             })
           }
