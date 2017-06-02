@@ -137,7 +137,7 @@ module.exports = {
             u.error(res.statusCode)
           } else {
             _stop()
-            require('./backup')._create('auto-update')
+            require('./backup').create({name: 'auto-update'})
 
             // Update config file
             var oldServer = u.config.server.path
