@@ -63,7 +63,17 @@ module.exports = {
         server.stop()
       }
 
-      fs.copySync(_backupPath(backup), u.config.server.data)
+      let tmp = `${u.tmpPath}/${require('uuid').v4()}`
+
+      try {
+        fs.moveSync(u.config.server.data, tmp)
+        fs.copySync(_backupPath(backup), u.config.server.dta)
+      } catch (e) {
+        fs.moveSync(tmp, u.config.server.data)
+        u.error(e)
+      } finally {
+        fs.removeSync(tmp)
+      }
 
       u.success('Restored from backup ' + _backupPath(backup))
 

@@ -9,11 +9,13 @@ const appUserPath = os.homedir() + '/' + '.blynkcli'
 const configPath = appUserPath + '/blynkcli.json'
 const serverFolder = appUserPath + '/server'
 const PIDFile = appUserPath + '/blynk.pid'
+const tmpPath = appUserPath + '/tmp'
 
 let utils = {
   appUserPath,
   configPath,
   PIDFile,
+  tmpPath,
 
   error: (message) => {
     console.error(chalk.red.bold('[ERR] '), message)
