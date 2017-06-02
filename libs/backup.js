@@ -67,7 +67,7 @@ module.exports = {
 
       try {
         fs.moveSync(u.config.server.data, tmp)
-        fs.copySync(_backupPath(backup), u.config.server.dta)
+        fs.copySync(_backupPath(backup), u.config.server.data)
       } catch (e) {
         fs.moveSync(tmp, u.config.server.data)
         u.error(e)
