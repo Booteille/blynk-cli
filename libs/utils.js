@@ -13,7 +13,6 @@ const PIDFile = appUserPath + '/blynk.pid'
 let utils = {
   appUserPath,
   configPath,
-  serverFolder,
   PIDFile,
 
   error: (message) => {
@@ -34,14 +33,10 @@ let utils = {
     fs.ensureDirSync(appUserPath)
 
     if (!fs.existsSync(configPath)) {
-      let version = '0.24.6'
-      let filename = 'server-' + version + '.jar'
       let config = {
         'server': {
-          'filename': filename,
-          'version': 'v' + version,
+          'version': 'v0.24.6',
           'folder': serverFolder,
-          'path': serverFolder + '/' + filename,
           'data': serverFolder + '/data',
           'properties': serverFolder + '/server.properties',
           'logs': serverFolder + '/logs',
