@@ -19,7 +19,7 @@ Please, make sure your configuration respect the following pre-requisite:
 * npm (or alike)
 
 ### Installation
-On linux, run the following command as super-user to install Blynk CLI:
+You can install Blynk CLI with NPM:
 ```console
 $ npm install -g blynk-cli
 ```
