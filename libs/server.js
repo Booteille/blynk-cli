@@ -6,6 +6,8 @@ const fs = require('fs-extra')
 const request = require('request')
 const chalk = require('chalk')
 
+fs.ensureDirSync(u.config.server.data)
+
 module.exports = {
   install: () => {
     if (_isInstalled()) {
