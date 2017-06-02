@@ -30,7 +30,7 @@ let utils = {
     console.warn(chalk.yellow.bold('[WARN] ') + message)
   },
 
-  ensureBlynkCLIDir: () => {
+  ensureBlynkCLIFiles: () => {
     fs.ensureDirSync(appUserPath)
 
     if (!fs.existsSync(configPath)) {
@@ -65,7 +65,7 @@ let utils = {
   }
 }
 
-utils.ensureBlynkCLIDir()
+utils.ensureBlynkCLIFiles()
 utils.config = fs.readJsonSync(configPath)
 
 module.exports = utils
