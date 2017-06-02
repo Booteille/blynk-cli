@@ -126,7 +126,8 @@ function _backupPath (backup) {
 
 function _create (name) {
   const uuid = require('uuid').v4()
-  const backupPath = u.config.server.backup + '/' + path.normalize(name) + '/' + uuid
+  const backupNamePath = `${u.config.server.backup}/${path.normalize(name)}`
+  const backupPath = `${backupNamePath}/${uuid}`
 
   let lock = []
 
@@ -141,6 +142,7 @@ function _create (name) {
     server_version: u.config.server.version
   })
 
+  fs.ensureDirSync(backupNamePath)
   fs.outputJsonSync(backupsLock, lock, {
     spaces: 2
   })
