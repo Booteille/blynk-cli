@@ -21,9 +21,9 @@ module.exports = {
       u.error('Please, install java first or make sure your PATH is valid.')
     }
 
-    fs.ensureDirSync(u.serverFolder)
+    fs.ensureDirSync(u.config.server.folder)
 
-    var downloadURL = 'https://github.com/blynkkk/blynk-server/releases/download/' + u.config.server.version + '/' + u.config.server.filename
+    let downloadURL = `https://github.com/blynkkk/blynk-server/releases/download/${u.config.server.version}/${_filename()}`
 
     u.info(`Downloading Blynk server ${u.config.server.version}`)
 
@@ -37,7 +37,7 @@ module.exports = {
         u.error(res.statusCode)
       } else {
         // Write downloaded file to server path
-        fs.writeFileSync(u.config.server.path, data, {
+        fs.writeFileSync(_path(), data, {
           encoding: null,
           mode: 0o755
         })
@@ -96,7 +96,7 @@ module.exports = {
         if (answers.confirm) {
           _stop()
 
-          fs.removeSync(u.serverFolder)
+          fs.removeSync(u.config.server.folder)
 
           u.success('Uninstall complete')
         } else {
@@ -119,18 +119,18 @@ module.exports = {
       } else if (res.statusCode !== 200) {
         u.error('Status: ' + res.statusCode)
       } else {
-        let lastVersion = data.tag_name
-        let lastDownloadURL = data.assets[0].browser_download_url
-        let lastFilename = data.assets[0].name
+        let newVersion = data.tag_name
+        let newDownloadURL = data.assets[0].browser_download_url
+        let newFilename = data.assets[0].name
 
-        if (lastVersion === u.config.server.version && fs.existsSync(u.serverFolder + '/' + lastFilename)) {
+        if (newVersion === u.config.server.version && fs.existsSync(_path(newFilename))) {
           u.info('Your Blynk server is already up to date.')
           return
         }
 
-        u.info('Update ' + lastVersion + ' available. Downloading...')
+        u.info(`Update ${newVersion} available. Downloading...`)
         request.get({
-          url: lastDownloadURL,
+          url: newDownloadURL,
           encoding: null
         }, (err, res, data) => {
           if (err) {
@@ -144,13 +144,7 @@ module.exports = {
             }
             require('./backup').create({name: 'auto-update'})
 
-            // Update config file
-            var oldServer = u.config.server.path
-            u.config.server.version = lastVersion
-            u.config.server.path = u.serverFolder + '/' + lastFilename
-            u.config.server.filename = lastFilename
-
-            fs.writeFile(u.config.server.path, data, {
+            fs.writeFile(_path(newFilename), data, {
               encoding: null,
               mode: 0o755
             }, (err) => {
@@ -158,11 +152,14 @@ module.exports = {
                 u.error(err)
               } else {
                 // Remove old server
-                fs.unlink(oldServer, (err) => {
+                fs.unlink(_path(), (err) => {
                   if (err) {
                     u.error(err)
                   }
                 })
+
+                // Update config file
+                u.config.server.version = newVersion
 
                 fs.writeJson(u.configPath, u.config, {spaces: 2}, (err) => {
                   if (err) {
@@ -189,8 +186,12 @@ module.exports = {
   }
 }
 
+function _filename () {
+  return `server-${u.config.server.version.substr(1)}.jar`
+}
+
 function _isInstalled (displayError) {
-  if (!fs.existsSync(u.config.server.path)) {
+  if (!fs.existsSync(_path())) {
     if (displayError) {
       u.error('You must install Blynk server first')
     } else {
@@ -216,12 +217,16 @@ function _isStarted () {
   return false
 }
 
+function _path (filename = _filename()) {
+  return `${u.config.server.folder}/${filename}`
+}
+
 function _start () {
   var spawn = require('child_process').spawn
 
   if (!_isStarted()) {
     var java = spawn('java', [
-      '-jar', u.config.server.path,
+      '-jar', _path(),
       '-dataFolder', u.config.server.data,
       '-serverConfig', u.config.server.properties
     ], {
