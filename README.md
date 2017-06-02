@@ -5,6 +5,11 @@ This utility provide a way to manage your blynk server from Command-Line Interfa
 
 This is a work in progress and fully experimental utility. You should not try to use it in production.
 
+## Documentation
+Docs are available on https://readthedocs.io/ :
+
+[English](https://blynk-cligithubio.readthedocs.io/) - [Français](https://blynk-cli-fr.readthedocs.io/fr/latest/)
+
 ## Installation
 ### Dependencies
 Please, make sure your configuration respect the following pre-requisite:
@@ -16,41 +21,47 @@ Please, make sure your configuration respect the following pre-requisite:
 ### Installation
 On linux, run the following command as super-user to install Blynk CLI:
 ```console
-npm install -g blynk-cli
+$ npm install -g blynk-cli
 ```
 
 ## Usage
 ### Show help
 Once Blynk CLI installed, you can show help about existing commands by typing:
 ```console
-blynkcli
+$ blynk-cli
 # OR
-blynk-cli help
+$ blynk-cli help
 # OR
-blynk-cli --help
+$ blynk-cli --help
 ```
 
 ### Install Blynk Server
 Once Blynk CLI installed, you'll have to install Blynk server by running:
 ```console
-blynk-cli server install
+$ blynk-cli server install
+[INFO] Downloading Blynk server v0.24.5
+[INFO] Creating default configuration
+[OK] Installation complete
 ```
 
 ### Update Blynk Server
 You can update Blynk Server to the latest version by running:
 ```console
-blynk-cli server update
+$ blynk-cli server update
+[INFO] Update v0.24.6 available. Downloading...
+[OK] Update complete
+[OK] Backup done! You can find it in /home/booteille/.blynkcli/backup/auto-update/b1045268-2f32-4e24-85a3-fb740266d417
 ```
 
 ### Start/Stop/Restart Server
 ```console
-blynk-cli server start
+$ blynk-cli server start
 
-blynk-cli server status # Display status of Blynk server
+$ blynk-cli server status # Display status of Blynk server
 
-blynk-cli server stop
+$ blynk-cli server stop
 
-blynk-cli server restart
+$ blynk-cli server restart
 ```
 
 ### Make a backup
