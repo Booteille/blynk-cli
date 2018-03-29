@@ -10,6 +10,7 @@ const configPath = appUserPath + '/blynkcli.json'
 const serverFolder = appUserPath + '/server'
 const PIDFile = appUserPath + '/blynk.pid'
 const tmpPath = appUserPath + '/tmp'
+const defaultVersion = 'v0.33.5'
 
 let utils = {
   appUserPath,
@@ -37,7 +38,7 @@ let utils = {
     if (!fs.existsSync(configPath)) {
       let config = {
         'server': {
-          'version': 'v0.24.6',
+          'version': defaultVersion,
           'folder': serverFolder,
           'data': serverFolder + '/data',
           'properties': serverFolder + '/server.properties',
