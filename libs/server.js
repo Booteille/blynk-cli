@@ -6,6 +6,11 @@ const fs = require('fs-extra')
 const request = require('request')
 const chalk = require('chalk')
 
+const MESSAGE_JAVA_MISSING = 'Please, install java first or make sure your PATH is valid.'
+
+var isJava8 = null
+
+
 fs.ensureDirSync(u.config.server.data)
 
 module.exports = {
@@ -14,16 +19,19 @@ module.exports = {
       u.error('Blynk server already installed')
     }
 
-    // Check if Java exists
-    var spawn = require('child_process').spawnSync('java', ['-version'])
-
-    if (spawn.error) {
-      u.error('Please, install java first or make sure your PATH is valid.')
+    if (!_hasJava()) {
+    	u.error(MESSAGE_JAVA_MISSING)
     }
-
+		
     fs.ensureDirSync(u.config.server.folder)
 
-    let downloadURL = `https://github.com/blynkkk/blynk-server/releases/download/${u.config.server.version}/${_filename()}`
+    let downloadURL = `https://github.com/blynkkk/blynk-server/releases/download/${u.config.server.version}`
+
+    if(_isJava8()) {
+    	downloadURL += `/${_filenameJava8()}`;
+    } else {
+    	downloadURL += `/${_filename()}`
+    }
 
     u.info(`Downloading Blynk server ${u.config.server.version}`)
 
@@ -119,9 +127,10 @@ module.exports = {
       } else if (res.statusCode !== 200) {
         u.error('Status: ' + res.statusCode)
       } else {
+      	let asset = _isJava8() ? 1 : 0
         let newVersion = data.tag_name
-        let newDownloadURL = data.assets[0].browser_download_url
-        let newFilename = data.assets[0].name
+        let newDownloadURL = data.assets[asset].browser_download_url
+        let newFilename = data.assets[asset].name
 
         if (newVersion === u.config.server.version && fs.existsSync(_path(newFilename))) {
           u.info('Your Blynk server is already up to date.')
@@ -190,6 +199,10 @@ function _filename () {
   return `server-${u.config.server.version.substr(1)}.jar`
 }
 
+function _filenameJava8() {
+  return `server-${u.config.server.version.substr(1)}-java8.jar`
+}
+
 function _isInstalled (displayError) {
   if (!fs.existsSync(_path())) {
     if (displayError) {
@@ -200,6 +213,35 @@ function _isInstalled (displayError) {
   }
 
   return true
+}
+
+function _hasJava() {
+	var spawn = require('child_process').spawnSync('java', ['-version'])
+
+	if (spawn.error) {
+		return false
+	}
+
+	return true
+}
+
+function _isJava8() {
+	if (null === isJava8) {
+
+		if(!_hasJava()) {
+			u.error(MESSAGE_JAVA_MISSING)
+		}
+		
+		var version = require('child_process').execSync('java -version 2>&1 | head -n 1', {'stdio': 'pipe'}).toString()
+
+		if ("1.8" === version.split(' ')[2].substr(1, 3)) {
+			isJava8 = true
+		} else {					
+			isJava8 = false
+		}
+	}
+	
+	return isJava8
 }
 
 function _isStarted () {
@@ -217,14 +259,19 @@ function _isStarted () {
   return false
 }
 
-function _path (filename = _filename()) {
-  return `${u.config.server.folder}/${filename}`
+function _path (filename = null) {
+	if (null === filename) {
+ 		var name = _isJava8() ? _filenameJava8() : _filename()
+	}
+	
+  return `${u.config.server.folder}/${name}`
 }
 
 function _start () {
   var spawn = require('child_process').spawn
 
   if (!_isStarted()) {
+  	
     var java = spawn('java', [
       '-jar', _path(),
       '-dataFolder', u.config.server.data,
