@@ -1,6 +1,6 @@
 {
   "name": "blynk-cli",
-  "version": "0.3.3",
+  "version": "0.3.5",
   "description": "An utility to manage your Blynk server",
   "main": "app.js",
   "bin": "app.js",
